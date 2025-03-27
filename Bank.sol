@@ -10,7 +10,7 @@ contract Bank {
     address[3] public topThreeUsers;
 
     constructor() {
-        admin = 0x1E7F6c30F4FCaCc3f952C90a9864394934b78070;
+        admin = msg.sender;
     }
 
     modifier onlyAdmin() {
