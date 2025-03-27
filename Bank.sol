@@ -9,17 +9,25 @@ contract Bank {
     // 前三
     address[3] public topThreeUsers;
 
+    error NotAdmin();
+    error NotEnoughBalance();
+
     constructor() {
         admin = msg.sender;
     }
 
+
     modifier onlyAdmin() {
-        require(msg.sender == admin, "Only admin can withdraw");
+        if (msg.sender != admin) {
+            revert NotAdmin();
+        }
         _;
     }
 
     function withdraw(uint amount) public onlyAdmin {
-        require(amount <= address(this).balance, "not enough balance");
+        if (amount > address(this).balance) {
+            revert NotEnoughBalance();
+        }
         payable(admin).transfer(amount);
     }
 
